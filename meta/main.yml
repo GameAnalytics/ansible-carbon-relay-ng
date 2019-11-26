@@ -1,0 +1,10 @@
+---
+galaxy_info:
+  role_name: carbon_relay_ng
+  author: GameAnalytics
+  description: Role for installing and starting carbon-relay-ng using supervisord
+  company: GameAnalytics
+  min_ansible_version: 2.5
+  platforms:
+  - name: Ubuntu
+dependencies: []
