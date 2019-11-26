@@ -20,14 +20,14 @@
   template:
     src: carbon-relay-ng.conf
     dest: "{{ carbon_relay_ng_conf_dir }}/carbon-relay-ng.conf"
-    mode: 0755
+    mode: 0644
   notify: Restart carbon-relay-ng service
 
 - name: Copy storage-schemas file
   template:
     src: storage-schemas.conf
     dest: "{{ carbon_relay_ng_conf_dir }}/storage-schemas.conf"
-    mode: 0755
+    mode: 0644
   notify: Restart carbon-relay-ng service
 
 - name: Create directory for pid file
@@ -42,5 +42,5 @@
   template:
     src: supervisor.conf
     dest: /etc/supervisor/conf.d/carbon-relay-ng.conf
-    mode: 0755
+    mode: 0644
   notify: Reread Supervisor configuration
