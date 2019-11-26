@@ -1,0 +1,46 @@
+# Raintank is the repository provided by the team who develops carbon-relay-ng (GrafanaLabs)
+- name: Add https support for apt
+  apt:
+    name: apt-transport-https
+
+- name: Add raintank apt-key
+  apt_key:
+    url: https://packagecloud.io/raintank/raintank/gpgkey
+
+- name: Add raintank apt repository
+  apt_repository:
+    repo: "deb https://packagecloud.io/raintank/raintank/{{ ansible_lsb.id|lower }}/ {{ ansible_lsb.codename|lower }} main"
+
+- name: Install carbon-relay-ng
+  apt:
+    name: carbon-relay-ng
+    update_cache: yes
+
+- name: Copy conf file
+  template:
+    src: carbon-relay-ng.conf
+    dest: "{{ carbon_relay_ng_conf_dir }}/carbon-relay-ng.conf"
+    mode: 0755
+  notify: Restart carbon-relay-ng service
+
+- name: Copy storage-schemas file
+  template:
+    src: storage-schemas.conf
+    dest: "{{ carbon_relay_ng_conf_dir }}/storage-schemas.conf"
+    mode: 0755
+  notify: Restart carbon-relay-ng service
+
+- name: Create directory for pid file
+  file:
+    path: "{{ carbon_relay_ng_work_dir }}"
+    state: directory
+    owner: carbon-relay-ng
+    group: carbon-relay-ng
+  notify: Restart carbon-relay-ng service
+
+- name: Copy carbon-relay-ng Supervisord config
+  template:
+    src: supervisor.conf
+    dest: /etc/supervisor/conf.d/carbon-relay-ng.conf
+    mode: 0755
+  notify: Reread Supervisor configuration

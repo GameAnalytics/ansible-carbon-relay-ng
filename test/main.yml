@@ -1,0 +1,46 @@
+---
+- name: Bring up docker containers
+  hosts: localhost
+  gather_facts: false
+  vars:
+    inventory:
+      - name: carbon_relay_ng_host
+        image: "ubuntu:16.04"
+  roles:
+    - role: provision_docker
+      vars:
+        provision_docker_inventory: "{{ inventory }}"
+      #Fixes broken pip/Ansible/docker-py
+      #From: https://medium.com/dronzebot/ansible-and-docker-py-path-issues-and-resolving-them-e3834d5bb79a
+      environment:
+        PYTHONPATH: "{{ lookup('env','PYTHONPATH') }}:/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python2.7/site-packages:/home/travis/virtualenv/python2.7.14/lib/python2.7/site-packages"
+
+- name: Bootstrap machine for Ansible
+  hosts: docker_containers
+  become: yes
+  become_method: sudo
+  gather_facts: no
+  roles:
+    - bootstrap/raw
+
+- name: Install sudo
+  hosts: docker_containers
+  tasks:
+    - apt:
+        name: sudo
+
+- name: Roles for docker container
+  hosts: docker_containers
+  become: yes
+  become_method: sudo
+  roles:
+    - pip
+    - supervisor
+    - role: carbon_relay_ng
+      vars:
+        graphite_addr: "localhost"
+        graphite_apikey: "dummy"
+  post_tasks:
+    - wait_for:
+        port: "{{ carbon_relay_ng_port }}"
+        timeout: 30

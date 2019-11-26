@@ -1,0 +1,15 @@
+carbon_relay_ng_port: 2003
+carbon_relay_ng_bind: localhost
+graphite_route_key: 'grafanaNet'
+graphite_route_type: 'grafanaNet'
+graphite_interval: '1m'
+# graphite_interval_ms must equal to graphite_interval but in ms
+graphite_interval_ms: 60000
+
+carbon_relay_ng_user: carbon-relay-ng
+carbon_relay_ng_group: carbon-relay-ng
+carbon_relay_ng_conf_dir: /etc/carbon-relay-ng
+carbon_relay_ng_work_dir: /run/carbon-relay-ng
+wait_for_startup: True
+wait_for_startup_timeout: 30
+wait_for_healthcheck: True
