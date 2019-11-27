@@ -9,7 +9,7 @@
 
 - name: Add raintank apt repository
   apt_repository:
-    repo: "deb https://packagecloud.io/raintank/raintank/{{ ansible_lsb.id|lower }}/ {{ ansible_lsb.codename|lower }} main"
+    repo: "deb https://packagecloud.io/raintank/raintank/ubuntu/ xenial main"
 
 - name: Install carbon-relay-ng
   apt:
