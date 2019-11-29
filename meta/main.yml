@@ -8,4 +8,6 @@ galaxy_info:
   license: MIT
   platforms:
   - name: Ubuntu
+  galaxy_tags:
+    - monitoring
 dependencies: []
