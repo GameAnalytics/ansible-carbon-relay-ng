@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/GameAnalytics/ansible-carbon-relay-ng.svg?token=psJ7kzCPVMkCYuYpVEsy&branch=master)](https://travis-ci.com/GameAnalytics/ansible-carbon-relay-ng)
+[![Build Status](https://travis-ci.com/GameAnalytics/ansible-carbon-relay-ng.svg?branch=master)](https://travis-ci.com/GameAnalytics/ansible-carbon-relay-ng)
 # carbon-relay-ng Ansible role
 
 This role aims to configure and start carbon-relay-ng on target machine running under Supervisor
