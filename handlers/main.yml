@@ -1,6 +1,8 @@
 ---
 - name: Reread Supervisor configuration
-  shell: supervisorctl reread
+  supervisorctl:
+    name: carbon-relay-ng
+    state: present
   become: yes
 
 - name: Restart carbon-relay-ng service
@@ -16,4 +18,3 @@
     port: "{{ carbon_relay_ng_port }}"
     timeout: "{{ wait_for_startup_timeout }}"
   when: wait_for_startup
-
