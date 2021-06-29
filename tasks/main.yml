@@ -30,6 +30,13 @@
     mode: 0644
   notify: Restart carbon-relay-ng service
 
+- name: Copy storage-aggregation file
+  template:
+    src: storage-aggregation.conf
+    dest: "{{ carbon_relay_ng_conf_dir }}/storage-aggregation.conf"
+    mode: 0644
+  notify: Restart carbon-relay-ng service
+
 - name: Create directory for pid file
   file:
     path: "{{ carbon_relay_ng_work_dir }}"
