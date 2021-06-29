@@ -38,7 +38,7 @@
     - supervisor
     - role: carbon_relay_ng
       vars:
-        graphite_addr: "localhost"
+        graphite_addr: "http://localhost/metrics"
         graphite_apikey: "dummy"
   post_tasks:
     - wait_for:
