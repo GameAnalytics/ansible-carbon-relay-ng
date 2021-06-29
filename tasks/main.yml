@@ -43,6 +43,7 @@
     state: directory
     owner: carbon-relay-ng
     group: carbon-relay-ng
+    mode: 0755
   notify: Restart carbon-relay-ng service
 
 - name: Copy carbon-relay-ng Supervisord config
