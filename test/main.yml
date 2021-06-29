@@ -5,15 +5,11 @@
   vars:
     inventory:
       - name: carbon_relay_ng_host
-        image: "ubuntu:18.04"
+        image: "ubuntu:20.04"
   roles:
     - role: provision_docker
       vars:
         provision_docker_inventory: "{{ inventory }}"
-      #Fixes broken pip/Ansible/docker-py
-      #From: https://medium.com/dronzebot/ansible-and-docker-py-path-issues-and-resolving-them-e3834d5bb79a
-      environment:
-        PYTHONPATH: "{{ lookup('env','PYTHONPATH') }}:/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python2.7/site-packages:/home/travis/virtualenv/python2.7.14/lib/python2.7/site-packages"
 
 - name: Bootstrap machine for Ansible
   hosts: docker_containers
@@ -28,6 +24,26 @@
   tasks:
     - apt:
         name: sudo
+
+# This package is required in Ubuntu 20.04 to ensure that /usr/bin/python
+# is actually Python 3.
+- name: Install python-is-python3
+  hosts: docker_containers
+  tasks:
+    - apt:
+        name: python-is-python3
+
+# Not sure why we need both Python 2 and Python 3 versions of these packages,
+# but it breaks without them.
+- name: Install setuptools and pkg-resources
+  hosts: docker_containers
+  tasks:
+    - apt:
+        name:
+          - python-pkg-resources
+          - python-setuptools
+          - python3-pkg-resources
+          - python3-setuptools
 
 - name: Roles for docker container
   hosts: docker_containers

@@ -14,4 +14,4 @@
 - name: pip
   src: git@github.com:geerlingguy/ansible-role-pip.git
   scm: git
-  version: 1.2.1
+  version: 2.0.0
