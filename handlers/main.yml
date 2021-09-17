@@ -15,6 +15,7 @@
 
 - name: Wait for carbon-relay-ng to start up
   wait_for:
+    host: localhost
     port: "{{ carbon_relay_ng_port }}"
     timeout: "{{ wait_for_startup_timeout }}"
   when: wait_for_startup
