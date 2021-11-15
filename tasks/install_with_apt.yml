@@ -1,0 +1,17 @@
+# Raintank is the repository provided by the team who develops carbon-relay-ng (GrafanaLabs)
+- name: Add https support for apt
+  apt:
+    name: apt-transport-https
+
+- name: Add raintank apt-key
+  apt_key:
+    url: https://packagecloud.io/raintank/raintank/gpgkey
+
+- name: Add raintank apt repository
+  apt_repository:
+    repo: "deb https://packagecloud.io/raintank/raintank/ubuntu/ xenial main"
+
+- name: Install carbon-relay-ng
+  apt:
+    name: carbon-relay-ng
+    update_cache: yes
