@@ -1,0 +1,40 @@
+- name: Get latest version from Github
+  uri:
+    url: "https://api.github.com/repos/GameAnalytics/carbon-relay-ng/releases/tags/v1.1"
+    return_content: yes
+  register: github_response
+
+- name: Get architecture string
+  set_fact:
+    arch_string: "{% if ansible_architecture == 'aarch64' %}arm64{% else %}amd64{% endif %}"
+
+- name: Get package name
+  set_fact:
+    github_binary_filename: "carbon-relay-ng-1.1-1_{{ arch_string }}.deb"
+
+- name: Set fact about asset URL
+  set_fact:
+    binary_asset_url: "{{  github_response.json.assets|json_query(query) }}"
+  vars:
+    query: "[?name=='{{ github_binary_filename }}'].url | [0]"
+  failed_when: not binary_asset_url
+
+- name: Get Binary asset's location
+  uri:
+    url: "{{ binary_asset_url }}"
+    return_content: no
+    follow_redirects: none
+    status_code: 302
+    headers:
+      Accept: "application/octet-stream"
+  register: assets
+
+- name: Download binary release
+  get_url:
+    url: "{{ assets.location }}"
+    dest: "/tmp/{{ github_binary_filename }}"
+    mode: 0644
+
+- name: Install carbon-relay-ng from .deb file
+  apt:
+    deb: "/tmp/{{ github_binary_filename }}"

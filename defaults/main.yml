@@ -13,3 +13,5 @@ carbon_relay_ng_work_dir: /run/carbon-relay-ng
 wait_for_startup: True
 wait_for_startup_timeout: 30
 wait_for_healthcheck: True
+
+install_from_github_release: True
