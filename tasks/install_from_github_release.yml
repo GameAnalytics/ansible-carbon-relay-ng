@@ -2,6 +2,8 @@
   uri:
     url: "https://api.github.com/repos/GameAnalytics/carbon-relay-ng/releases/tags/v1.2.1-rc1"
     return_content: yes
+    headers:
+      Authorization: "token {{ github_token }}"
   register: github_response
 
 - name: Get architecture string
@@ -27,6 +29,7 @@
     status_code: 302
     headers:
       Accept: "application/octet-stream"
+      Authorization: "token {{ github_token }}"
   register: assets
 
 - name: Download binary release
