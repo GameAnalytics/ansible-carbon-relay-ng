@@ -20,5 +20,5 @@ install:
 
 script:
   - ansible-playbook -i test/inventory test/main.yml --syntax-check
-  - ansible-playbook -i test/inventory test/main.yml -vvv
+  - ansible-playbook -i test/inventory test/main.yml -e "github_token=${GITHUB_TOKEN}" -vvv
   - ansible-lint .

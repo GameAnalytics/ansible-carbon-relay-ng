@@ -1,7 +1,9 @@
 - name: Get latest version from Github
   uri:
-    url: "https://api.github.com/repos/GameAnalytics/carbon-relay-ng/releases/tags/v1.1"
+    url: "https://api.github.com/repos/GameAnalytics/carbon-relay-ng/releases/tags/v1.2.1-rc1"
     return_content: yes
+    headers:
+      Authorization: "token {{ github_token }}"
   register: github_response
 
 - name: Get architecture string
@@ -10,7 +12,7 @@
 
 - name: Get package name
   set_fact:
-    carbon_relay_ng_github_binary_filename: "carbon-relay-ng-1.1-1_{{ arch_string }}.deb"
+    carbon_relay_ng_github_binary_filename: "carbon-relay-ng-1.2.1-rc1-1_{{ arch_string }}.deb"
 
 - name: Set fact about asset URL
   set_fact:
@@ -27,6 +29,7 @@
     status_code: 302
     headers:
       Accept: "application/octet-stream"
+      Authorization: "token {{ github_token }}"
   register: assets
 
 - name: Download binary release
