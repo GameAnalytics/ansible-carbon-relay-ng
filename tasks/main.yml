@@ -3,10 +3,10 @@
 #
 # Revisit once https://github.com/grafana/carbon-relay-ng/pull/479
 # is merged.
-- include: install_from_github_release.yml
+- import_tasks: install_from_github_release.yml
   when: install_from_github_release
 
-- include: install_with_apt.yml
+- import_tasks: install_with_apt.yml
   when: not install_from_github_release
 
 - name: Copy conf file
