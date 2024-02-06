@@ -52,7 +52,8 @@
   roles:
     - pip
     - supervisor
-    - role: carbon_relay_ng
+    # We're not allowed to use symlinks or relative paths, so let's do it this way
+    - role: "{{ playbook_dir | regex_replace('/test$', '')}}"
       vars:
         graphite_addr: "http://localhost/metrics"
         graphite_apikey: "dummy"

@@ -1,5 +1,6 @@
 - name: provision_docker
-  src: git@github.com:chrismeyersfsu/provision_docker.git
+  src: git@github.com:GameAnalytics/provision_docker.git
+  version: symlink-subdirs
   scm: git
 
 - name: bootstrap
