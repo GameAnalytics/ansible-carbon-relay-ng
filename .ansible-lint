@@ -1,0 +1,13 @@
+# The test/ playbook depends on private GameAnalytics galaxy roles that are not
+# available in CI without an org token, so it is excluded from linting here.
+exclude_paths:
+  - test/
+# Enforce only the essential rules (syntax/load errors). Full lint modernization
+# of this legacy role is out of scope for the Travis -> GitHub Actions migration.
+profile: min
+
+# carbon-relay-ng's role directory name is hyphenated, which modern ansible-lint's
+# role-name rule rejects. This predates the Travis -> GitHub Actions migration, so
+# skip the rule to keep CI equivalent to what Travis actually enforced.
+skip_list:
+  - role-name
