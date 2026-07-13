@@ -6,14 +6,27 @@ on:
   pull_request:
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-      - name: Install Ansible and ansible-lint
-        run: pip install ansible ansible-lint
+      # test/requirements.yml lists deps as git@github.com URLs; the source repos
+      # are public, so rewrite SSH -> HTTPS (as .travis.yml did) and no token is needed.
+      - name: Configure git to fetch role deps over HTTPS
+        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
+      - name: Install Ansible and test dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y sshpass
+          pip install ansible ansible-lint docker jmespath
+          ansible --version
+          ansible-galaxy install -r test/requirements.yml
+      - name: Syntax check
+        run: ansible-playbook -i test/inventory test/main.yml --syntax-check
+      - name: Run integration playbook
+        run: ansible-playbook -i test/inventory test/main.yml -e github_token=${{ secrets.GITHUB_TOKEN }} -vvv
       - name: Run ansible-lint
         run: ansible-lint
