@@ -16,6 +16,12 @@
   become: yes
   become_method: sudo
   gather_facts: no
+  vars:
+    # bootstrap/raw defaults to Python 2 packages; modern ansible-core needs
+    # Python 3 present for fact-gathering and the apt module.
+    bootstrap__mandatory_packages:
+      - python3
+      - python3-apt
   roles:
     - bootstrap/raw
 
